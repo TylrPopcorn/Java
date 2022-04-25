@@ -1,0 +1,31 @@
+```java
+
+//Make a damn square...:
+    public static void makeSquare() {
+
+        int INPUT = (-99); //Used to determine the users inputt
+
+        Scanner scnr = new Scanner(System.in); //create a new scanner to be used.
+        while (INPUT == -99) { //Loop
+            System.out.print("Enter a positive number less than or equal to (<=) 15: "); //Prompt the user.
+            INPUT = scnr.nextInt(); //update the val
+
+            if ((INPUT <= 0) || (INPUT > 15)) { //If the input is out of the correct range,
+                INPUT = -99; //change the input back to restart the loop.
+            }
+        }
+        
+        System.out.println("Number entered: " + INPUT); //Tell the user what input they gave.
+        String output = ""; //Used to determine the size of the length;
+        for (int i = 0; i < INPUT; i++) { //Loop throug however many times the uer inputted
+            output = output.concat("X");    //add an X to the string.
+        }
+        
+        output = output + "\n"; //At the end of the string, add a new line.
+        
+        for (int i = 0; i < INPUT; i++) { //Output the string however many times the user wanted it too.
+         System.out.print(output);   //yeeeeehawwww
+        }
+
+    }
+```
