@@ -1,0 +1,57 @@
+/*	
+ 
+ 		September 2019
+ 	Description: [This code prompts a user to input a string and returns info based on the string.]
+ 	
+ 	Pseudocode: (Steps)
+ 	1: Create a scanner and prompt the user to input.
+ 	2: IF the letter that the user chose is in the sentence that the user inputted,
+ 	3: Return a successful match and index number.
+ 	4: Else, return an error.
+ 
+ */
+
+import java.util.Scanner; //import.
+
+public class PostLab5_PromgramSubmission2 { //Strings Analysis
+	public static void main(String[] args) {
+		
+		System.out.println("ID002"); // ID
+		
+		//--------------------------------Program 2: String Analysis---------------------------------\\
+		
+		Scanner input = new Scanner(System.in); //Create
+		
+		//Variables
+		String word1, letter1;
+		int index, string_Length;
+		
+		System.out.print("Enter a word: "); //prompt.
+		word1 = input.nextLine(); //input.
+		
+		string_Length = word1.length(); //length of the word.
+		
+		System.out.println(word1 + " is " + string_Length + " characters long."); //return info.
+		
+		System.out.println(); //SPACER
+		
+		System.out.print("Enter a letter: "); //prompt.
+		letter1 = input.nextLine(); //input.
+		
+		System.out.println(); //SPACER
+		
+		System.out.print("Enter an index: "); //prompt.
+		index = input.nextInt(); //input.
+		
+		//Check
+		if (word1.contains(letter1)) { //Must be an exact match.
+			System.out.println(word1.indexOf(letter1) + " was found to be your index letter."); //number.
+			System.out.println(word1.charAt(index) + " is the word of your index."); //index number.
+		} else {
+			System.out.println(letter1 + " is not part of " + word1 + "; please retry.");
+			System.out.println(word1.charAt(index) + " is the word of your index."); //index number.
+		}
+	
+		
+	}
+}
