@@ -1,0 +1,283 @@
+
+public class Assignment2 {
+    /* 
+        October 21, 2020.
+    */
+
+    //Variables:
+    private static ArrayList<Item> objects = new ArrayList<Item>(); //Used to hold all of our foods.
+    private static double totalCost = 0; //the TOTAL cost of all of the items.
+    private static double salesTax = 0; //the amount of tax being added to the total cost.
+    
+    private static double cashUsed = 0; //The total amount of cash used.
+    private static double debitUsed = 0; //total amount of debit used.
+    private static double creditUsed = 0; //and so on.
+    private static double checkUsed = 0;
+    //-------------------\\
+    
+   /*
+    The method below prompts the user on what they are buying, then directs them
+    to the correct methods for purchase.
+    */
+    public static void main(String[] args) {
+        Scanner scnr = new Scanner(System.in); //Create a new scanner.
+
+        int numbOfItems = 0; //Used to determine how many items the user wants.
+        while (numbOfItems <= 0) { //while the user has not chosen anything.
+            System.out.print("How many items are you buying hun?: "); //prom[t.
+
+            try { //try:
+                numbOfItems = scnr.nextInt(); //to get the input from the user.
+            } catch (Exception e) { //If the user is being dumb,
+                System.out.println("No. How about you insert a number genius."); //tell them what's up.
+                System.out.println(); //SPACER.
+                numbOfItems = 0; //reeset the variable.
+                scnr.next(); //clear the input to be used again.
+            }
+        }
+
+        System.out.println(); //SPACER.
+
+        for (int i = 0; i < numbOfItems; i++) { //loop
+            System.out.print("Enter the name of item " + (i + 1) + ": "); //prompt the user to enter their item.
+            String itemName = scnr.next(); //get the item.
+            itemName = itemName.toString(); //turn it into a string if it is not already.
+
+            boolean Passed = false; //Used to determine if the user entered the correct info.
+            while (Passed == false) { //while passsd = false.
+                System.out.print("Enter the cost for " + itemName + ": "); //Prompt the user.
+                try {
+                    double cost = Double.parseDouble(scnr.next()); //get the input and turn it into a double.
+                    if (cost > 0) { //if the user actually entered valid info,
+                        Item newITEM = new Item(itemName, cost); //create a new food object with that info.
+                        objects.add(newITEM); //and add that object to a table.
+                        
+                        Passed = true; //let the loop know that we are done with it.
+                    } else { //if the user did NOT enter good info,
+                     Passed = false;  //restart them. 
+                    }
+                } catch (Exception e) { //CATCH ANY EXCEPTIONS.
+                    System.out.println("Insert. A. Price."); //tell the user what's up.
+                    Passed = false; //reset them.
+                }
+            }
+
+            System.out.println(); //SPACER.
+        }
+
+        System.out.println(); //SPACER.
+        stateItems(); //Output the items.
+        System.out.println("Total: " + totalCost); //tell the user their total cost.
+        System.out.println(); //SPACER.
+
+        while (totalCost >0) { //while the user has not paid everything do
+            int choice = 0; //Used to determine which option the user went with below:
+            while (choice == 0) {
+                System.out.println("Please enter payment type (1-4):"); //give the user their options for this prompt.
+                System.out.println("1. Cash");
+                System.out.println("2. Debit card");
+                System.out.println("3. Credit card");
+                System.out.print("4. Check\n---------:");
+
+                try { //try something
+                    choice = Integer.parseInt(scnr.next()); //turn any input from the user into a possible int
+
+                    if (choice == 1) { //if their choice was cash,
+                        CASH(); //invoke the method.
+                    } else if (choice == 2) { //if the user chose debit
+                        DEBIT_CARD(); //invoke.
+                    } else if (choice == 3) {
+                        CREDIT_CARD(); //invoke
+                    } else if (choice == 4) {
+                        CHECK(); //invoke.
+                    } else { //IF THE USER DID NOT CHOOSE ANYTHING
+                        System.out.println("That is not one of the options."); //tell them
+                        System.out.println();
+                        choice = 0;  //and reset them.
+                    }
+                } catch (Exception e) { //if the user did not insert a number
+                    System.out.println("That is not one of the options."); //make them go back.
+                    System.out.println();
+                    choice = 0;
+                   // scnr.next();
+                }
+                
+                if (totalCost < 0) { //If the user paid everything,
+                 break;   //end the loop.
+                }
+            }
+        }
+    }
+    
+    /*
+        The method below will output all of the uers items in order with the name
+        and price of each item letting them know what they are buying.
+    */
+    public static void stateItems() {
+       
+        for (int i = 0; i < objects.size(); i++) { //for loop
+            System.out.println("Item " + (i + 1) + ": " + objects.get(i).toString()); //print out the items info.
+            totalCost = (totalCost + objects.get(i).getCost()); //add up the cost of each item.
+        }
+
+        salesTax = (totalCost * .07); //add a sales tax to it.
+        totalCost = totalCost + salesTax; //update the total cost.
+    }
+    
+    /*
+        This method makes a 'receipt' for the user to evaluate.
+    */
+    public static void printReceipt() {
+        System.out.println("Total after payment: " + totalCost); //state the top.
+        System.out.println(); //SPACER
+        
+        if (totalCost <=0) { //If the total cost has been paid
+            
+            double change = 0; //used to determine if the store owes the user money.
+            if (totalCost <0) { //if the company owes the user money then
+                change = (totalCost - totalCost - totalCost); //update the variable. (because it is negative val, add it 3 times to make it positive.)
+            }
+            
+            stateItems(); //print out all of the items again.
+            System.out.println("--------------------------");
+            System.out.println("Subtotal:   " + (totalCost - salesTax));
+            System.out.println("Tax:         " + salesTax);
+            System.out.println("Total:              " + totalCost);
+            if (cashUsed >0) { //If the user used cash,
+                System.out.println("Cash:        " + cashUsed);   //print out the total val used.
+                //No need to add more than 1 cash. That's just innefficient nowadays. Just give the customer their total.
+            }
+            
+            if (debitUsed > 0) { //If the user used debit,
+                 System.out.println("Debit:              " + debitUsed);   //print out the total debit amount
+                //No need to add more than 1 cash. That's just innefficient nowadays. Just give the customer their total.
+            }
+            
+            if (creditUsed >0) { //if the user used credit
+                  System.out.println("Credit:              " + creditUsed);   //again, print out total credit used.
+                //No need to add more than 1 cash. That's just innefficient nowadays. Just give the customer their total.
+            }
+            
+             if (checkUsed >0) { //if the user used checks
+                  System.out.println("Check:                   " + checkUsed);  //print out check total amount. 
+                //No need to add more than 1 cash. That's just innefficient nowadays. Just give the customer their total.
+            }
+            
+            System.out.println("Change:     " + change); //tell the user their change.
+            totalCost = 0; //reset the cost to 0.
+        }
+    }
+
+    /*
+        This method allows the user to pay with cash.
+    */
+    public static void CASH() {
+        Scanner scnr = new Scanner(System.in); //create a new scanner to be used.
+        
+        //Variables
+        double paymentPrice = -1;
+        
+        while (paymentPrice <=0) { //while the user has not paid anything
+            System.out.print("Enter the amount to pay with this type: "); //Prompt the user.
+        
+            try{ //try
+               paymentPrice = Double.parseDouble(scnr.next()); //turn the input into a double
+            }
+            
+            catch(Exception e){ //catch any exceptions
+                System.out.println("Please. Enter a valid amount."); //tell the user
+                paymentPrice = -1; //reset them
+            }
+        }
+        
+        cashUsed = cashUsed + paymentPrice; //update the cash used variable.
+        totalCost = totalCost - paymentPrice; //update the total cost.
+        printReceipt(); ///print receipt.
+    }
+    
+     /*
+        This method allows the user to pay with a debit card.
+    */
+    public static void DEBIT_CARD() {
+        Scanner scnr = new Scanner(System.in); //create a new scanner to be used.
+        
+        //Variables
+        double paymentPrice = -1;
+        
+        while (paymentPrice <=0) { //while the user has not paid anything
+            System.out.print("Enter the amount to pay with this type: "); //Prompt the user.
+        
+            try{ //try
+               paymentPrice = Double.parseDouble(scnr.next()); //turn the input into a double
+            }
+            
+            catch(Exception e){ //catch any exceptions
+                System.out.println("Please. Enter a valid amount."); //tell the user
+                paymentPrice = -1; //reset them
+            }
+        }
+        
+        debitUsed = debitUsed + paymentPrice; //update
+        totalCost = totalCost - paymentPrice;
+        printReceipt(); //receipt.
+    }
+    
+     /*
+        This method allows the user to pay with a credit card.
+    */
+    public static void CREDIT_CARD() { 
+        Scanner scnr = new Scanner(System.in); //create a new scanner to be used.
+        
+        //Variables
+        double paymentPrice = -1;
+        
+        while (paymentPrice <=0) { //while the user has not paid anything
+            System.out.print("Enter the amount to pay with this type: "); //Prompt the user.
+        
+            try{ //try
+               paymentPrice = Double.parseDouble(scnr.next()); //turn the input into a double
+            }
+            
+            catch(Exception e){ //catch any exceptions
+                System.out.println("Please. Enter a valid amount."); //tell the user
+                paymentPrice = -1; //reset them
+            }
+        }
+        
+        creditUsed = creditUsed + paymentPrice; //update the amount of credit used
+        totalCost = totalCost - paymentPrice; //uppdate the total cost
+        printReceipt(); //print out the receipt.
+    }
+    
+    
+     /*
+        This method allows the user to pay with a check.
+    */
+    public static void CHECK() {
+        Scanner scnr = new Scanner(System.in); //create a new scanner to be used.
+        
+        //Variables
+        double paymentPrice = -1;
+        
+        while (paymentPrice <=0) { //while the user has not paid anything
+            System.out.print("Enter the amount to pay with this type: "); //Prompt the user.
+        
+            try{ //try
+               paymentPrice = Double.parseDouble(scnr.next()); //turn the input into a double
+            }
+            
+            catch(Exception e){ //catch any exceptions
+                System.out.println("Please. Enter a valid amount."); //tell the user
+                paymentPrice = -1; //reset them
+            }
+        }
+        
+        //update the variables
+        
+        checkUsed = checkUsed + paymentPrice;
+        totalCost = totalCost - paymentPrice;
+        printReceipt(); //print receipt.
+    }
+
+
+}
