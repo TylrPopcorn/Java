@@ -1,0 +1,162 @@
+public class Assignment1 {
+    //Thursday, September 17, 2020, 5:37 PM EST\\
+
+    public static int Rounds; //The number of rounds played.
+    public static int Point; //Used as the number "point" earned.
+    public static int Wins; //Used to determine the number of wins earned.
+    public static int Losses; //Used to determine the number of losses earned.
+    public static final int MAX_ROUNDS = 100000; //Used to determine how many times the game can be played at once.
+
+    public static void main(String[] args) {
+
+        String input; //Used to determine if the player wants to start the game or not.
+        Scanner scnr = new Scanner(System.in); //Create a scanner.
+
+        boolean Pass = false; //Used to determine if the player gets to play or not.
+        while (Pass == false) { //Loop.
+
+            System.out.print("Start game? (Y/N): "); //Prompt the user.
+            input = scnr.next(); //Get the user input.
+
+            input = input.toString(); //Make sure the input is a string.
+            input = input.toUpperCase(); //Allow the answer to be 1 answer.
+
+            if (input.length() == 1) { //If the user entered 1 char like supposed too,
+                if (input.charAt(0) == 'Y') { //If the char is 'Y'then
+                    Pass = true; //Allow the player to play.
+                    break; //Stop the loop.
+                } else if (input.charAt(0) == 'N') { //Else if the user chose 'N',
+                    Pass = false; //Update the boolean val.
+                    System.out.println("Goodbye"); //Send them their proposal
+                    break; //and get them outta here.
+                }
+            }
+
+        } //.
+
+        System.out.println(); //Spacer.
+
+        if (Pass == true) { //If the user has said 'y' then
+            Game(); //Start the game.
+        }
+
+    }
+
+    //Game method:
+    public static void Game() {
+
+        int Die1;
+        int Die2;
+        //--------------\\
+        Rounds = 0; //Reset the things we need.
+        Losses = 0;
+        Wins = 0;
+        Point = 0;
+
+        //Loop
+        while (Rounds < MAX_ROUNDS) { //Loop x times.
+            int Total;
+            int Rolls = 0;
+
+            Die1 = 0; //Reset the things we need.
+            Die2 = 0;
+            Rounds++; //Add 1 to the rounds
+
+            boolean roundOver = false; //Used to determine if the round is over or not.
+            while (roundOver == false) { //While-loop.
+                Rolls++; //Each time this loop starts over, add a roll.
+
+                boolean passed = false; //Used to determine if the dice numbers a quality number or not.
+                while (passed == false) { //Loop
+                    Die1 = (int) (Math.random() * 7); //Get a random number between 0 - 6
+                    Die2 = (int) (Math.random() * 7);
+
+                    if ((Die1 != 0) && (Die2 != 0)) { //If the number chosen is NOT a 0 then,
+                        passed = true; //end the loop.
+                        break; //break off.
+                    }
+                }
+
+                Total = (Die1 + Die2); //Get a total from the di vals.
+
+                //Output the info:
+                System.out.println("Roll " + Rounds + " -- Die: " + Die1 + ", Die2: " + Die2 + " -- Total: " + Total);
+
+                if (Rolls == 1) { //the "come-out roll".
+                    int LosingNumbers[] = {2, 3, 12}; //List of losing numbers.
+                    int WinningNumbers[] = {7, 11}; //List of winning numbers.
+
+                    if ((Total == LosingNumbers[0]) || (Total == LosingNumbers[1]) || (Total == LosingNumbers[2])) { //If the total turns out to be one of the losing numbers then
+                        //You lose.
+
+                        Losses++;
+                        roundOver = true; //Let the loop know that it can stop the current round.
+
+                        if (Rounds < 10) { //If the rounds are < 10
+                            System.out.println("LOSS!"); //leet the user know.
+                        }
+                    } else if ((Total == WinningNumbers[0]) || (Total == WinningNumbers[1])) { //ELSE if the total turns out to be one of the winning numbers then
+                        //You win.
+
+                        Wins++;
+                        roundOver = true; //Let the loop know that it can stop the current round.
+
+                        if (Rounds < 10) { //If the rounds are < 10
+                            System.out.println("WIN!"); //Let the user know
+                        }
+                    } else { //ELSE if it was none of the lucky numbers,
+                        //Save as point.
+
+                        Point = Total; //Update the points val.
+                        Rolls++; //Let's get on to the next roll shall we.
+
+                        if (Rounds < 10) { //If the rounds are < 10.
+                            System.out.println("POINT is " + Point); //Let the user know.
+                        }
+                    }
+                } else { //Any round after 1:
+                    int luckyNumber = Point; //All of the lucky numbers.
+                    int unluckyNumber = 7; //The unlucky number.
+
+                    if (Total == luckyNumber) {
+                        //You win.
+
+                        Wins++; //Add to the wins.
+                        roundOver = true; //End the round.
+
+                        if (Rounds < 10) { //If the rounds are < 10
+                            System.out.println("WIN!"); //let the user know.
+                        }
+
+                    } else if (Total == unluckyNumber) { //If the total is the unlucky number, then...
+                        //You lose.
+
+                        Losses++;
+                        roundOver = true; //end the round.
+
+                        if (Rounds < 10) { //If the rounds are < 10
+                            System.out.println("LOSS!"); //let the user know.
+                        }
+
+                    }
+
+                }
+
+                if (Rounds < 10) {
+                    System.out.println(Wins + " win(s) , " + Losses + " loss(es)");
+                }
+
+                if (roundOver == true) { //If the current round is over,
+                    break; //Stop the ROLL loop overall.   
+                }
+
+                //.
+            }
+        }
+
+        //display total wins/losses to the user:
+        System.out.println("OVERALL:");
+        System.out.println(Wins + " win(s) , " + Losses + " loss(es)");
+    }
+
+}
