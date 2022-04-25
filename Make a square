@@ -1,5 +1,4 @@
-```java
-
+//The purpose of this is to make a square in the output.
 //Make a damn square...:
     public static void makeSquare() {
 
@@ -28,4 +27,3 @@
         }
 
     }
-```
