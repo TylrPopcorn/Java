@@ -1,0 +1,73 @@
+//Open a file:
+//12/11/20
+
+public class Assignment4 {
+
+    public static void main(String[] args) throws FileNotFoundException { //The main method.
+        Scanner scnr = new Scanner(System.in); //Create a new scanner.
+
+        try { //try:
+            System.out.print("Enter your file name: "); //prompt the user.
+            String name_OF_FILE = (""); //Used to hold the naame of the file
+            name_OF_FILE = scnr.nextLine(); //update the field
+            name_OF_FILE.trim(); //trim it for no whitespace.
+            
+            File FILE = new File(name_OF_FILE); //Create a new file with the name.
+            Scanner scnr2 = new Scanner(FILE); //use it to get info from the file.
+
+            //Fields:
+            int counter1 = 0; int counter2 = 0; 
+            String info = ("");
+            //-----------------\\
+            
+            while (scnr2.hasNextLine()) { //Go through each line.
+                info = scnr2.nextLine().replaceAll("\\s+", "");
+                counter2 = info.length(); //update the length.
+            }
+            scnr2.close(); //close out.
+            
+            Scanner scanr3 = new Scanner(FILE); //Create another scanner.
+            int square[][] = null; //Create a new array.
+            
+            try { //try
+                do {
+                    counter1++; //Start adding up.
+                    scanr3.nextLine(); //move to the next line.
+                } while (scanr3.hasNextLine()); //Loop through the scanner.
+                scanr3.close(); //close out.
+
+                square = new int[counter1][counter2]; //Make the square.
+                Scanner scnr4 = new Scanner(FILE); //Create aa newe scanner.
+                int counter3 = 0; int counter4 = 0;
+                
+                do {
+                    square[counter3][counter4] = scnr4.nextInt(); //Update.
+                    counter3++; //aadd up.
+                    
+                    if (counter3 == square.length) { //If the first counter matchs up with the square length then.
+                        counter3 = 0; counter4 += 1; //add up.
+                    }
+
+                } while (scnr4.hasNextInt()); //while there is stuff in the scanner.
+
+                Detector msdetect = new Detector(square);
+                MagicSquare msClass = new MagicSquare(square, msdetect.get());
+
+                if (msdetect.Check()) {
+                    System.out.println(msClass.toString());
+                }
+            } catch (FileNotFoundException e) { //catch any problems.
+                System.out.println("The file you are looking for is not real. Please try again.");
+            }
+        } catch (java.util.NoSuchElementException e) { //Get any problems.
+            System.out.println("The file did not contain any values."); //tell the user
+        } catch (FileNotFoundException e) { //Get any problems.
+            System.out.println("No file found. Please try again."); //tell the user
+        }catch (ArrayIndexOutOfBoundsException e) { //Get any problems.
+            System.out.println("The file did not contain any values."); //tell the user
+        } catch (NumberFormatException e) { //Get any problems.
+            System.out.println("The file did not contain any values."); //tell the user
+        }
+
+    }
+}
