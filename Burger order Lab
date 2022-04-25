@@ -1,0 +1,93 @@
+
+public class Lab5 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        //Wed, Oct, 21, 2020, 10:45 AM\\
+    /*
+        BurgerOrder order1 = new BurgerOrder(3, 5, 4, 10, false, 1); //creaate new orders.
+        BurgerOrder order2 = new BurgerOrder(0, 0, 3, 3, true, 2);
+        BurgerOrder order3 = new BurgerOrder(1, 1, 0, 2, false, 3);
+        
+        System.out.println(order1);
+        System.out.println(order2);
+        System.out.println(order3);
+        
+        order1.setNumSodas(12);
+    */
+
+        FastFoodKitchen kitchen = new FastFoodKitchen(); //Create a new kitchen.
+        Scanner sc = new Scanner(System.in); //create a new scanner
+
+        while (kitchen.getNumOrdersPending() != 0) { //while the number pending is different than 0 
+            // see if user wants to add an order
+            System.out.println("Please select from the following menu of options, by typing a number:");
+            System.out.println("\t 1. Order food");
+            System.out.println("\t 2. Check on an order");
+            System.out.println("\t 3. Show all the orders currently pending.");
+            System.out.println("\t 4. Cancel order.");
+            System.out.println("\t 5. Do nothing (just waiting)");
+            try { //try out
+                int num = sc.nextInt(); //get the users input.
+                switch (num) { //switch statement
+                    case 1: //1
+                        System.out.println("How many hamburgers do you want?"); //promopt
+                        int ham = sc.nextInt(); //get the input
+                        System.out.println("How many cheeseburgers do you want?"); //prompt
+                        int cheese = sc.nextInt(); //get the input
+                        System.out.println("How many veggieburgers do you want?"); //prompt
+                        int veggie = sc.nextInt(); //get the input
+                        System.out.println("How many sodas do you want?"); //prompt
+                        int sodas = sc.nextInt(); //get the input
+                        System.out.println("Is your order to go? (Y/N)"); //[prompt
+                        char letter = sc.next().charAt(0); //get the first char
+                        boolean TOGO = false; //new variable.
+                        if (letter == 'Y' || letter == 'y') { //if thee letter is 'y'
+                            TOGO = true; //is leaving
+                        }
+                        int orderNum = kitchen.addOrder(ham, cheese, veggie, sodas, TOGO); //create a new order.
+                        System.out.println("Thank-you. Your order number is " + orderNum); //let the user know their order num.
+                        System.out.println(); //SPACER.
+                        break; //break
+                    case 2: //2.
+                        System.out.println("What is your order number?"); //prompt the user.
+                        int order = sc.nextInt(); //get the input from them.
+                        boolean ready = kitchen.isOrderDone(order); //determine if the order is ready
+                        if (ready) { //if it IS ready, then
+                            System.out.println("Yes, we already called out order number " + order); //tell the user
+                        } else {//elsee if it is not reaady then 
+                            System.out.println("No, it's not ready, but it should be up soon. Sorry for the wait."); //teell the user.
+                        }
+                        System.out.println(); //spacer.
+                        break; //end the loop
+                    case 3: //3.
+                        System.out.println(kitchen); //print out the kitchen
+                        break; //breaak
+                    case 4: //4.
+                        System.out.print("Enter your order number: "); //promt the user
+                        int Num = sc.nextInt(); //get the input
+                        
+                        boolean success = kitchen.cancelOrder(num); //determine if it is a success
+                        if (success) { //if it is a success then
+                            System.out.println("Your order has been successfully cancelled.");    //teell the user they canceled their order.
+                        } else { //if it waass not a asuccess then 
+                            System.out.println("Sorry, we can't find your order number in the system."); //leet the user know what is up.
+                        }
+                        break; //end the loop.
+                    case 5: //5.
+                        break; //break.
+                    default: //defaault 
+                        System.out.println("Sorry, but you need to enter a 1, 2, 3 or a 4"); //tell the user something.
+                }
+            } catch (InputMismatchException ime) { //catch anything that was not a number.
+                System.out.println("Sorry, but that wasn't a number.");
+            }
+            // simulate cooking activity in the kitchen
+            kitchen.simulateKitchenActivity();
+
+        } // end while loop
+
+    }
+}
