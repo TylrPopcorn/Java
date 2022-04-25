@@ -1,0 +1,39 @@
+//All this does is check an array for a certain name inside another method. (METHOD ARRAYS.)
+public class Activity_18C {
+
+	public static void nameSearch(String[] datatype, String string2) {
+		for (int i = 0; i<datatype.length; i++) { //Check the array
+			if (datatype[i].contains(string2)) { //If the name is found inside the array.
+				System.out.println(string2 + " was found at index: " + i);
+				break;
+			}
+		}
+
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		
+		//Variables
+		String datatype[] = new String[10];
+		//----------\\
+		
+		java.util.Scanner input = new java.util.Scanner(System.in); //create a scanner
+		
+		for (int i = 0; i < datatype.length; i++) {
+			System.out.print("Enter " + (10 - i) + " name(s): "); //Prompt
+			datatype[i] = input.next();
+			
+			System.out.println(); //SPACER
+		}
+		
+		System.out.print("Enter a name to search for: "); //Prompt.
+		String newName = input.next();
+		
+		nameSearch(datatype, newName); //Invoke method.
+		
+	}
+	
+	
+}
