@@ -1,0 +1,48 @@
+/*
+October 2019
+ 	Description: [This code counts how many occurances a letter shows up in a word.]
+
+ 	
+ 	Pseudocode: (Steps)
+ 	1: Create a scanner and prompt the user to enter a string.
+ 	2: Prompt the user to enter a letter to search for.
+ 	3: Count up all the assigned letters in the main string and return the info.
+ 
+ */
+
+import java.util.Scanner; //Import a scanner.
+
+public class PostLab_8_ProgramSubmission2 {
+	
+	public static void main(String[] args) { //Main Method
+		
+		System.out.println("ID002"); //ID
+		
+		Scanner input = new Scanner(System.in); //Create a scanner
+		
+		//-----Program 2: Count Letter Occurrence-----\\
+		
+		//---Variables---\\
+		String WORD, Letter;
+		int counter = 0;
+		//----------------
+		
+		System.out.print("Enter a string: "); //Prompt.
+		WORD = input.nextLine();
+		
+		System.out.print("Enter a letter: "); //Prompt.
+		Letter = input.next();
+	
+		for (int i = 0; i<WORD.length(); i++) { //Loop
+			if (WORD.charAt(i) == Letter.charAt(0)) { //Must be exact match.
+				counter++;
+			}
+		}
+		
+		System.out.println("Total occurances: " + counter); //Return.
+		
+	}
+
+}
+
+
